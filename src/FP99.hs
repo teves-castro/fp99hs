@@ -101,3 +101,10 @@ encodeMod = map mapEncoding . encode
 
 encodeMod1 :: Eq a => [a] -> [Encoded a]
 encodeMod1 l = [mapEncoding e | e <- encode l]
+
+--p12
+decodeMod :: [Encoded a] -> [a]
+decodeMod = concatMap decodeHelper
+  where
+    decodeHelper (Single a) = [a]
+    decodeHelper (Multiple n a) = replicate n a
