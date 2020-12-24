@@ -88,3 +88,16 @@ encode = map (\xs -> (length xs, head xs)) . pack
 
 encode1 :: Eq b => [b] -> [(Int, b)]
 encode1 l = [(length xs, head xs) | xs <- group l]
+
+--p11
+data Encoded a = Single a | Multiple Int a deriving (Show)
+
+mapEncoding :: (Int, a) -> Encoded a
+mapEncoding (1, a) = Single a
+mapEncoding (n, a) = Multiple n a
+
+encodeMod :: Eq a => [a] -> [Encoded a]
+encodeMod = map mapEncoding . encode
+
+encodeMod1 :: Eq a => [a] -> [Encoded a]
+encodeMod1 l = [mapEncoding e | e <- encode l]
