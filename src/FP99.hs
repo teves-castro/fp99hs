@@ -108,3 +108,44 @@ decodeMod = concatMap decodeHelper
   where
     decodeHelper (Single a) = [a]
     decodeHelper (Multiple n a) = replicate n a
+
+--p13
+encodeDirect :: Eq a => [a] -> [Encoded a]
+encodeDirect [] = []
+encodeDirect (a : rest) =
+  let encodeRun a n =
+        case n of
+          1 -> Single a
+          _ -> Multiple n a
+      helper [] b n
+        | n == 0 = []
+        | otherwise = [encodeRun b n]
+      helper [a] b n
+        | n == 0 = helper [] a 1
+        | a == b = helper [] b (n + 1)
+        | otherwise = encodeRun b n : helper [] a 1
+      helper l@(a : rest) b n
+        | a == b = helper rest a (n + 1)
+        | otherwise = encodeRun b n : encodeDirect l
+   in helper rest a 1
+
+encodeDirect2 :: Eq a => [a] -> [Encoded a]
+encodeDirect2 =
+  let mapper (1, x) = Single x
+      mapper (n, x) = Multiple n x
+
+      reducer x [] = [(1, x)]
+      reducer x (y@(a, b) : ys)
+        | x == b = (1 + a, x) : ys
+        | otherwise = (1, x) : y : ys
+
+      encoder = foldr reducer []
+   in map mapper . encoder
+
+--p14
+dupli :: [a] -> [a]
+dupli [] = []
+dupli (x : xs) = x : x : dupli xs
+
+dupli2 :: [a] -> [a]
+dupli2 = foldr (\x -> (++) [x, x]) []
