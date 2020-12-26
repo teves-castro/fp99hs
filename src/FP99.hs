@@ -2,7 +2,7 @@ module FP99 where
 
 import Data.List (group)
 
--- p01
+--p01
 last01 :: [p] -> p
 last01 [h] = h
 last01 (_ : t) = last01 t
