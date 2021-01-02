@@ -149,3 +149,25 @@ dupli (x : xs) = x : x : dupli xs
 
 dupli2 :: [a] -> [a]
 dupli2 = foldr (\x -> (++) [x, x]) []
+
+--p15
+repli :: (Num n, Enum n) => [a] -> n -> [a]
+repli [] _ = []
+repli l n = concatMap helper l
+  where
+    helper a = map (const a) [1 .. n]
+
+--p16
+drop' :: Integral b => [a] -> b -> [a]
+drop' xs n = map fst $ filter (\(_, i) -> i `mod` n /= 0) $ zip xs [1 ..]
+
+--p17
+split :: (Eq n, Num n) => [a] -> n -> ([a], [a])
+split as n = splitHelper as n []
+  where
+    splitHelper [] _ as = ([], as)
+    splitHelper xs 0 as = (reverse as, xs)
+    splitHelper (x : xs) n as = splitHelper xs (n - 1) (x : as)
+
+split' :: Integral n => [a] -> n -> ([a], [a])
+split' xs n = foldr (\(x, i) (as, bs) -> if i > n then (as, x : bs) else (x : as, bs)) ([], []) (zip xs [0 ..])
