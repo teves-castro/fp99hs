@@ -171,3 +171,22 @@ split as n = splitHelper as n []
 
 split' :: Integral n => [a] -> n -> ([a], [a])
 split' xs n = foldr (\(x, i) (as, bs) -> if i > n then (as, x : bs) else (x : as, bs)) ([], []) (zip xs [0 ..])
+
+--p18
+slice :: Int -> Int -> [a] -> [a]
+slice s e = take (e - s + 1) . drop (s - 1)
+
+--p19
+rotate xs n = rest ++ start
+  where
+    cut = if n >= 0 then n else length xs + n
+    rest = drop cut xs
+    start = take cut xs
+
+--p20
+removeAt' :: (Eq t, Num t) => [a] -> t -> (Maybe a, [a])
+removeAt' [] _ = (Nothing, [])
+removeAt' (x : xs) 1 = (Just x, xs)
+removeAt' (x : xs) n = (l, x : xs')
+  where
+    (l, xs') = removeAt' xs (n - 1)
