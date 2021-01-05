@@ -165,7 +165,7 @@ drop' xs n = map fst $ filter (\(_, i) -> i `mod` n /= 0) $ zip xs [1 ..]
 split :: (Eq n, Num n) => [a] -> n -> ([a], [a])
 split as n = splitHelper as n []
   where
-    splitHelper [] _ as = ([], as)
+    splitHelper [] _ as = (as, [])
     splitHelper xs 0 as = (reverse as, xs)
     splitHelper (x : xs) n as = splitHelper xs (n - 1) (x : as)
 
@@ -190,3 +190,13 @@ removeAt' (x : xs) 1 = (Just x, xs)
 removeAt' (x : xs) n = (l, x : xs')
   where
     (l, xs') = removeAt' xs (n - 1)
+
+--p21
+insertAt :: (Ord n, Num n) => a -> [a] -> n -> [a]
+insertAt x [] _ = [x]
+insertAt x l@(a : as) n
+  | n <= 1 = x : l
+  | otherwise = a : insertAt x as (n - 1)
+
+insertAt' :: (Eq n, Num n) => a -> [a] -> n -> [a]
+insertAt' x as n = let (s, e) = split as (n - 1) in s ++ x : e
