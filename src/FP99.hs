@@ -1,6 +1,8 @@
 module FP99 where
 
-import Data.List (group)
+import Control.Monad (replicateM)
+import Data.List (group, nub)
+import System.Random (newStdGen, randomRs)
 
 --p01
 last01 :: [p] -> p
@@ -200,3 +202,12 @@ insertAt x l@(a : as) n
 
 insertAt' :: (Eq n, Num n) => a -> [a] -> n -> [a]
 insertAt' x as n = let (s, e) = split as (n - 1) in s ++ x : e
+
+--p22
+range :: Enum a => a -> a -> [a]
+range i j = [i .. j]
+
+--p23
+rndSelect :: Int -> [a] -> IO [a]
+rndSelect n xs = do
+  map (xs !!) . take n . nub . randomRs (0, length xs - 1) <$> newStdGen
