@@ -1,7 +1,7 @@
 module FP99 where
 
 import Control.Monad (replicateM)
-import Data.List (group, nub)
+import Data.List (group, nub, subsequences, tails)
 import System.Random (newStdGen, randomRs)
 
 --p01
@@ -211,3 +211,23 @@ range i j = [i .. j]
 rndSelect :: Int -> [a] -> IO [a]
 rndSelect n xs = do
   map (xs !!) . take n . nub . randomRs (0, length xs - 1) <$> newStdGen
+
+--p24
+rndNumbers :: Int -> Int -> IO [Int]
+rndNumbers n m = rndSelect n [0 .. m]
+
+--p25
+rndPermutation :: [a] -> IO [a]
+rndPermutation xs = rndSelect (length xs) xs
+
+--p26
+combinations :: Int -> [a] -> [[a]]
+combinations 0 xs = [[]]
+combinations n xs =
+  [ y : ys
+    | y : xs' <- tails xs,
+      ys <- combinations (n -1) xs'
+  ]
+
+combinations' :: Int -> [a] -> [[a]]
+combinations' k ns = filter ((k ==) . length) (subsequences ns)
