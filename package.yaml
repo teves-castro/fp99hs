@@ -4,7 +4,7 @@ github:              "githubuser/fp99"
 license:             BSD3
 author:              "Author name here"
 maintainer:          "example@example.com"
-copyright:           "2020 Author name here"
+copyright:           "2021 Author name here"
 
 extra-source-files:
 - README.md

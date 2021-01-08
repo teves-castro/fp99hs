@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 77fadd1ea073926ae8b77442e9bdf41ff29f8e8e4ca78051ab2f97a14bed6a11
+-- hash: 2972dc86b4ec75b2cc65f0e84ca8f3eaac08b64a9ac3453aff2fd0ea3ddc6074
 
 name:           fp99
 version:        0.1.0.0
@@ -13,7 +13,7 @@ homepage:       https://github.com/githubuser/fp99#readme
 bug-reports:    https://github.com/githubuser/fp99/issues
 author:         Author name here
 maintainer:     example@example.com
-copyright:      2020 Author name here
+copyright:      2021 Author name here
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -27,7 +27,6 @@ source-repository head
 
 library
   exposed-modules:
-      FP99
       Lib
   other-modules:
       Paths_fp99
