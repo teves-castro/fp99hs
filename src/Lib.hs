@@ -1,7 +1,7 @@
 module Lib where
 
 import Control.Monad (replicateM)
-import Data.List (group, nub, subsequences, tails)
+import Data.List (group, groupBy, nub, sortBy, sortOn, subsequences, tails)
 import System.Random (newStdGen, randomRs)
 
 --p01
@@ -246,3 +246,13 @@ group' [] xs = [[]]
 group' (g : gs) xs = concatMap helper $ combination g xs
   where
     helper (as, bs) = map (as :) (group' gs bs)
+
+--p28
+lsort :: [[a]] -> [[a]]
+lsort = sortOn length
+
+lsort' :: [[a]] -> [[a]]
+lsort' = sortBy (\as bs -> compare (length as) (length bs))
+
+lfsort :: [[a]] -> [[a]]
+lfsort = concat . lsort . groupBy (\as bs -> length as == length bs) . lsort
