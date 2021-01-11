@@ -231,3 +231,18 @@ combinations n xs =
 
 combinations' :: Int -> [a] -> [[a]]
 combinations' k ns = filter ((k ==) . length) (subsequences ns)
+
+--p27
+combination :: Int -> [a] -> [([a], [a])]
+combination 0 xs = [([], xs)]
+combination n [] = []
+combination n (x : xs) = ts ++ ds
+  where
+    ts = [(x : ys, zs) | (ys, zs) <- combination (n - 1) xs]
+    ds = [(ys, x : zs) | (ys, zs) <- combination n xs]
+
+group' :: [Int] -> [a] -> [[[a]]]
+group' [] xs = [[]]
+group' (g : gs) xs = concatMap helper $ combination g xs
+  where
+    helper (as, bs) = map (as :) (group' gs bs)
