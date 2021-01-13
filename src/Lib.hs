@@ -1,9 +1,10 @@
 module Lib where
 
 import Control.Monad (replicateM)
-import Data.List (group, groupBy, nub, sortBy, sortOn, subsequences, tails)
+import Data.List (group, groupBy, nub, sortBy, sortOn, subsequences, tails, union)
 import System.Random (newStdGen, randomRs)
 
+-----------LISTS--------------------------------------------------------
 --p01
 last01 :: [p] -> p
 last01 [h] = h
@@ -256,3 +257,35 @@ lsort' = sortBy (\as bs -> compare (length as) (length bs))
 
 lfsort :: [[a]] -> [[a]]
 lfsort = concat . lsort . groupBy (\as bs -> length as == length bs) . lsort
+
+-----------LISTS--------------------------------------------------------
+
+-----------ARITHMETIC---------------------------------------------------
+--p31
+primes :: [Integer]
+primes = sieve [2 ..]
+  where
+    sieve (p : ps) = p : sieve [x | x <- ps, mod x p /= 0]
+
+primesTME = 2 : gaps 3 (join [[p * p, p * p + 2 * p ..] | p <- primes'])
+  where
+    primes' = 3 : gaps 5 (join [[p * p, p * p + 2 * p ..] | p <- primes'])
+    join ((x : xs) : t) = x : union xs (join (pairs t))
+    pairs ((x : xs) : ys : t) = (x : union xs ys) : pairs t
+    gaps k xs@(x : t)
+      | k == x = gaps (k + 2) t
+      | otherwise = k : gaps (k + 2) xs
+
+isPrime :: Integral a => a -> Bool
+isPrime n = l == 1 || l == 2
+  where
+    l = length $ filter (\i -> (n `mod` i) == 0) [1 .. n `div` 2]
+
+isPrime' k =
+  k > 1
+    && foldr
+      (\p r -> p * p > k || k `rem` p /= 0 && r)
+      True
+      primesTME
+
+-----------ARITHMETIC---------------------------------------------------
