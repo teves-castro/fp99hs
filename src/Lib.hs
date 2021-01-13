@@ -299,3 +299,33 @@ coprime :: Integral t => t -> t -> Bool
 coprime a b = gcd' a b == 1
 
 -----------ARITHMETIC---------------------------------------------------
+
+-----------TREES--------------------------------------------------------
+
+data Tree a = Empty | Branch a (Tree a) (Tree a) deriving (Show, Eq)
+
+leaf :: a -> Tree a
+leaf a = Branch a Empty Empty
+
+-- p55
+cbalTrees :: (Eq t, Num t) => t -> [Tree Char]
+cbalTrees 0 = [Empty]
+cbalTrees 1 = [leaf 'x']
+cbalTrees n = nub $ concatMap add $ cbalTrees (n - 1)
+  where
+    add (Branch x Empty Empty) = [Branch x Empty (leaf 'x'), Branch x (leaf 'x') Empty]
+    add (Branch x l Empty) = [Branch x l (leaf 'x')]
+    add (Branch x Empty r) = [Branch x (leaf 'x') r]
+    add (Branch x l r) = map (\nl -> Branch x nl r) (add l) ++ map (Branch x l) (add r)
+
+cbalTrees' :: Int -> [Tree Char]
+cbalTrees' 0 = [Empty]
+cbalTrees' n =
+  let (q, r) = (n - 1) `quotRem` 2
+   in [ Branch 'x' left right
+        | i <- [q .. q + r],
+          left <- cbalTrees' i,
+          right <- cbalTrees' (n - i - 1)
+      ]
+
+-----------TREES--------------------------------------------------------
