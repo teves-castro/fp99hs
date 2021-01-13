@@ -294,4 +294,8 @@ gcd' a b
   | b == 0 = abs a
   | otherwise = gcd' b (a `rem` b)
 
+--p33
+coprime :: Integral t => t -> t -> Bool
+coprime a b = gcd' a b == 1
+
 -----------ARITHMETIC---------------------------------------------------
