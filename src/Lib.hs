@@ -288,4 +288,10 @@ isPrime' k =
       True
       primesTME
 
+--p32
+gcd' :: Integral t => t -> t -> t
+gcd' a b
+  | b == 0 = abs a
+  | otherwise = gcd' b (a `rem` b)
+
 -----------ARITHMETIC---------------------------------------------------
