@@ -334,7 +334,17 @@ mirror Empty Empty = True
 mirror (Branch _ ll lr) (Branch _ rl rr) = mirror ll rr && mirror lr rl
 mirror _ _ = False
 
-simetrical :: Tree a -> Bool
-simetrical t = mirror t t
+symmetric :: Tree a -> Bool
+symmetric t = mirror t t
+
+--p57
+construct :: Ord a => [a] -> Tree a
+construct [] = Empty
+construct l = foldl add Empty l
+  where
+    add Empty x = leaf x
+    add (Branch a l r) x
+      | x < a = Branch a (add l x) r
+      | otherwise = Branch a l (add r x)
 
 -----------TREES--------------------------------------------------------
