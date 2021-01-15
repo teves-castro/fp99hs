@@ -347,4 +347,8 @@ construct l = foldl add Empty l
       | x < a = Branch a (add l x) r
       | otherwise = Branch a l (add r x)
 
+--p58
+symCbalTrees :: Integer -> [Tree Char]
+symCbalTrees = filter symmetric . cbalTrees
+
 -----------TREES--------------------------------------------------------
