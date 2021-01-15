@@ -328,4 +328,13 @@ cbalTrees' n =
           right <- cbalTrees' (n - i - 1)
       ]
 
+--p56
+mirror :: Tree a -> Tree a -> Bool
+mirror Empty Empty = True
+mirror (Branch _ ll lr) (Branch _ rl rr) = mirror ll rr && mirror lr rl
+mirror _ _ = False
+
+simetrical :: Tree a -> Bool
+simetrical t = mirror t t
+
 -----------TREES--------------------------------------------------------
